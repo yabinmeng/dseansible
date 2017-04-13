@@ -1,1 +1,5 @@
-## Manage DataStax Enterprise (DSE) Installation and Version Upgrade Using Ansible Playbook
+# Manage DataStax Enterprise (DSE) Installation and Version Upgrade Using Ansible Playbook
+
+It is not a trivial task to provision a large DSE cluster, to manage the key configuration item (e.g. dse.yaml, cassandra.yaml, etc.) changes, do version upgrade, and so on.  Historically (pre DSE 5.0), there is really no easy, out-of-the-box method to manage these tasks automatically (as much as possible) and it is very time-consuming and error-prone to run these tasks on each node in the cluster manually.
+
+Starting from DSE 5.0, OpsCenter 6.0 (as part of DSE 5.0 release) introduces a new component called Life Cycle Manager (LCM) that is designed for efficient installation and configuration of a DSE cluster through a web-browser based GUI. Although there are some limitations with the current version (OpsCenter 6.0.8 as the time of this writing), it is in general an easy-to-use, robust, out-of-the-box solution offered by DataStax to try to sove the issues as I described above. Please reference to LCM's documentation page (https://docs.datastax.com/en/latest-opscenter/opsc/LCM/opscLCM.html) for more details. 
