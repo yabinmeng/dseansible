@@ -6,7 +6,7 @@ Starting from DSE 5.0, OpsCenter 6.0 (as part of DSE 5.0 release) introduces a n
 
   Unfortunately, while the current version of LCM does a great job in provisioning new cluster and managing configuration changes, it does not support DSE version upgrade yet. Meanwhile, the way that LCM schedules the execution of a job (provisioning new node or making configuration change) across the entire DSE cluster is in serial mode. This means that before finishing the execution of a job on one DSE node, LCM won't kick off the job on another node. Although correct, such a scheduling mechanism is not flexible and less efficient. 
 
-In attempt to overcome the limitations of the (current version of) LCM and bring some flexibility in job execution scheduling across the entire DSE cluster, I created an Ansible framework (playbook) for:
+In an attempt to overcome the limitations of the (current version of) LCM and bring some flexibility in job execution scheduling across the entire DSE cluster, I created an Ansible framework (playbook) for:
 * Installing a brand new DSE cluster
 * Upgrading an existing DSE cluster to a newer version 
 
@@ -22,7 +22,7 @@ Ansible uses an ***inventory*** file to group the systems or host machines to be
 
 ## DSE Install/Upgrade Framework
 
-This framework is based on Ansible playbook, following the Ansible playbook [best practice principles](http://docs.ansible.com/ansible/playbooks_best_practices.html). The playbook folder structure is listed as the tree structure below. 
+This framework is based on Ansible playbook. Following the Ansible [best practice principles](http://docs.ansible.com/ansible/playbooks_best_practices.html), the framework playbook directory structure is as below:
 
 ```
 ├── ansible.cfg
@@ -68,14 +68,16 @@ This framework is based on Ansible playbook, following the Ansible playbook [bes
     │   ├── tasks
     │   │   └── main.yml
     ├── dse_upgrade_sstable
-    │   ├── tasks
-    │   │   └── main.yml
-    └── oracle_java
-        ├── defaults
-        │   └── main.yml
-        ├── meta
-        │   └── main.yml
-        └── tasks
-            └── main.yml
+        ├── tasks
+            └── main.yml
+
 ```
 
+| Top Level Item Name | Type   | Description  |
+| ------------------- | ------ | ------------ |
+| ansible.cfg         | File   | Configuration setting file to control Ansible execution behavior |
+| dse_install.yml     | File   | Playbook for fresh DSE installation |
+| dse_upgrade.yml     | File   | Playbook for upgrading DSE from an older version to a newer version |
+| group_vars          | Folder | Global variables that are available to all playbooks |
+| hosts               | File   | Ansible inventory file |
+| roles               | Folder | Ansible roles (organization units) included in the playbooks | 
