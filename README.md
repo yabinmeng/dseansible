@@ -1,5 +1,7 @@
 # Manage DataStax Enterprise (DSE) Installation and Version Upgrade Using Ansible Playbook
 
+## 1. Overview
+
 It is not a trivial task to provision a large DSE cluster, to manage the key configuration item (e.g. dse.yaml, cassandra.yaml, etc.) changes, and to do version upgrade.  Historically (pre DSE 5.0), there is really no out-of-the-box method to manage these tasks automatically (as much as possible). It is operationally a time-consuming and error-prone work to manually run these tasks on every DSE node instance, not even to mention that for many cases, you also have to consider the task execution sequence among different DES nodes (e.g. DC by DC, rack by rack, seed vs. no-seed and so on).
 
 Starting from DSE 5.0, OpsCenter 6.0 (as part of DSE 5.0 release) introduces a new component called Life Cycle Manager (LCM) that is designed for efficient installation and configuration of a DSE cluster through a web based GUI. It aims to solve the above issue as an easy-to-use, out-of-the-box solution offered by DataStax. Although there are some limitations with the current version (OpsCenter 6.0.8 as the time of this writing), it is in general a good solution for automatic DSE cluster provisioning and configuration management. For more detailed information about this product, please reference to LCM's documentation page (https://docs.datastax.com/en/latest-opscenter/opsc/LCM/opscLCM.html). 
@@ -12,7 +14,7 @@ In an attempt to overcome the limitations of the (current version of) LCM and br
 
 This framework does have some configuration management capabilities (e.g. to make changes in cassandra.yaml file), but it is not yet a general tool to manage all DSE components related configuration files. However, using Ansible makes this job much easier and quite straightforward. I will cover this 
 
-## Ansible Introduction  
+## 2. Ansible Introduction  
 
 Unlike some other orchestration and configuration management (CM) tools like Puppet or Chef, Ansible is very lightweight. It doesn't require any CM related modeuls, daemons, or agents to be installed on the managed machines. It is based on Python and pushes YAML based script commands over SSH protocol to remote hosts for execution. Ansible only needs to be installed on one workstation machine (could be your laptop) and as long as the SSH access from the workstation to the managed machines is enabled, Ansible based orchestration and CM will work.
 
@@ -20,7 +22,7 @@ Ansible uses an ***inventory*** file to group the systems or host machines to be
 
 > *If Ansible modules are the tools in your workshop, playbooks are your instruction manuals, and your inventory of hosts are your raw material.*
 
-## DSE Install/Upgrade Framework
+## 3. DSE Install/Upgrade Framework
 
 This framework is based on Ansible playbook. Following the Ansible [best practice principles](http://docs.ansible.com/ansible/playbooks_best_practices.html), the framework playbook directory structure is designed as below. Please note that this is just a starting point of this framework andl the directory structure may be subject to future changes.
 
@@ -82,6 +84,26 @@ The high level description (as below) of the top level elements should be quite 
 | roles               | Folder | Ansible roles (organization units) included in the playbooks | 
 
 
-### Define Ansible Inventory File (hosts)
+### 3.1. Define Ansible Inventory File (hosts)
 
+The key point in creating Ansible inventory file for DSE installation and upgrade is to identify different groups (of hosts) that may have different execution orders, such as:  
+* When installing a new DSE cluster, the seed nodes have to be started before non-seed nodes.
+* When doing an DSE version upgrade for a multi-DC cluster, it is better to finish upgrading one DC before moving on to another DC.
 
+For example, for a 1-DC DSE cluster, we could define the inventory file to be something like:
+
+```
+[dse:children]
+dse_seed
+dse_nonseed
+
+[dse_seed]
+seed_node1_ip
+seed_node2_ip
+...
+
+[dse_nonseed]
+nonseed_node1_ip
+nonseed_node2_ip
+...
+```
