@@ -12,10 +12,14 @@ In attempt to overcome the limitations of the (current version of) LCM and bring
 
 This framework does have some configuration management capability (e.g. to make changes in cassandra.yaml file), but it is not a general tool to manage all DSE components related configuration files. It is planned for future improvement.
 
-## Ansible Overview  
+## Ansible Introduction  
 
 Unlike some other orchestration and configuration management (CM) tools like Puppet or Chef, Ansible is very lightweight. It doesn't require any CM related modeuls, daemons, or agents to be installed on the managed machines. It is based on Python and pushes YAML based script commands over SSH protocol to remote hosts for execution. Ansible only needs to be installed on one workstation machine (could be your laptop) and as long as the SSH access from the workstation to the managed machines is enabled, Ansible based orchestration and CM will work.
 
 Ansible uses an ***inventory*** file to group the systems or host machines to be managed. Ansible commands (either through ad-hoc or in Ansible ***module***) are executed against the systems or host machines specified in the inventory file. For more advanced orchestration and/or CM scenario, Ansible ***playbook*** is always used. By using the original words from Ansible [documentation](http://docs.ansible.com/ansible/intro.html), the relationship among Ansible inventory, module, and playbook can be summarized as:
 
 > *If Ansible modules are the tools in your workshop, playbooks are your instruction manuals, and your inventory of hosts are your raw material.*
+
+## DSE Install/Upgrade Framework
+
+
