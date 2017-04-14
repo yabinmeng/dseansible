@@ -22,6 +22,8 @@ Ansible uses an ***inventory*** file to group the systems or host machines to be
 
 ## DSE Install/Upgrade Framework
 
+This framework is based on Ansible playbook, following the Ansible playbook [best practice principles](http://docs.ansible.com/ansible/playbooks_best_practices.html). The playbook folder structure is listed as the tree structure below. 
+
 ```
 ├── ansible.cfg
 ├── dse_install.yml
