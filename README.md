@@ -72,7 +72,7 @@ This framework is based on Ansible playbook. Following the Ansible [best practic
 
 ```
 
-The high level description (as below) of the top level elements should be quite straightforward. Fore more background information about Ansible configuration file, inventory, playbook, and role, please check Ansible documentation. 
+The table below gives the high level description of the top level elements in the framework.
 
 | Top Level Item Name | Type   | Description  |
 | ------------------- | ------ | ------------ |
@@ -83,8 +83,9 @@ The high level description (as below) of the top level elements should be quite 
 | hosts               | File   | Ansible inventory file |
 | roles               | Folder | Ansible roles (organization units) included in the playbooks | 
 
+Among them, "ansible.cfg" is not DSE related. It is used in this framework to control the execution behavior of Ansible. For others, I will go through in more details in the following sections.
 
-### 3.1. Define Ansible Inventory File (hosts)
+### 3.1. Define Inventory File (hosts)
 
 The key point in creating Ansible inventory file for DSE installation and upgrade is to identify different groups (of hosts) that may have different execution orders, such as:  
 * When installing a new DSE cluster, the seed nodes have to be started before non-seed nodes.
@@ -107,3 +108,7 @@ nonseed_node1_ip
 nonseed_node2_ip
 ...
 ```
+
+### 3.2. Group Variables
+
+### 3.3. Playbook and Roles 
