@@ -44,8 +44,6 @@ This framework is based on Ansible playbook, following the Ansible playbook [bes
     │   └── tasks
     │       └── main.yml
     ├── dse_install_config
-    │   ├── meta
-    │   │   └── main.yml
     │   ├── tasks
     │   │   └── main.yml
     │   └── vars
@@ -61,23 +59,17 @@ This framework is based on Ansible playbook, following the Ansible playbook [bes
     │   │   └── main.yml
     │   ├── tasks
     │   │   └── main.yml
-    │   └── vars
     ├── dse_upgrade_bkup
-    │   ├── meta
     │   ├── tasks
     │   │   └── main.yml
     │   └── vars
     │       └── main.yml
     ├── dse_upgrade_mergconf
-    │   ├── meta
     │   ├── tasks
     │   │   └── main.yml
-    │   └── vars
     ├── dse_upgrade_sstable
-    │   ├── meta
     │   ├── tasks
     │   │   └── main.yml
-    │   └── vars
     └── oracle_java
         ├── defaults
         │   └── main.yml
