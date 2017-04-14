@@ -10,7 +10,7 @@ In attempt to overcome the limitations of the (current version of) LCM and bring
 * Installing a brand new DSE cluster
 * Upgrading an existing DSE cluster to a newer version 
 
-This framework does have some configuration management capability (e.g. to make changes in cassandra.yaml file), but it is not a general tool to manage all DSE components related configuration files. It is planned for future improvement.
+This framework does have some configuration management capabilities (e.g. to make changes in cassandra.yaml file), but it is not yet a general tool to manage all DSE components related configuration files. However, using Ansible makes this job much easier and quite straightforward. I will cover this 
 
 ## Ansible Introduction  
 
@@ -22,4 +22,66 @@ Ansible uses an ***inventory*** file to group the systems or host machines to be
 
 ## DSE Install/Upgrade Framework
 
+```
+├── ansible.cfg
+├── dse_install.yml
+├── dse_upgrade.yml
+├── group_vars
+│   └── all
+├── hosts
+└── roles
+    ├── base_common
+    │   └── tasks
+    │       └── main.yml
+    ├── base_dse
+    │   └── tasks
+    │       └── main.yml
+    ├── dse_install
+    │   ├── meta
+    │   │   └── main.yml
+    │   └── tasks
+    │       └── main.yml
+    ├── dse_install_config
+    │   ├── meta
+    │   │   └── main.yml
+    │   ├── tasks
+    │   │   └── main.yml
+    │   └── vars
+    │       └── main.yml
+    ├── dse_start_svc
+    │   └── tasks
+    │       └── main.yml
+    ├── dse_stop_svc
+    │   └── tasks
+    │       └── main.yml
+    ├── dse_upgrade_binary
+    │   ├── meta
+    │   │   └── main.yml
+    │   ├── tasks
+    │   │   └── main.yml
+    │   └── vars
+    ├── dse_upgrade_bkup
+    │   ├── meta
+    │   ├── tasks
+    │   │   └── main.yml
+    │   └── vars
+    │       └── main.yml
+    ├── dse_upgrade_mergconf
+    │   ├── meta
+    │   ├── tasks
+    │   │   └── main.yml
+    │   └── vars
+    ├── dse_upgrade_sstable
+    │   ├── meta
+    │   ├── tasks
+    │   │   └── main.yml
+    │   └── vars
+    └── oracle_java
+        ├── defaults
+        │   └── main.yml
+        ├── meta
+        │   └── main.yml
+        └── tasks
+            └── main.yml
+```
 
