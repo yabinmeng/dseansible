@@ -22,7 +22,7 @@ Ansible uses an ***inventory*** file to group the systems or host machines to be
 
 ## DSE Install/Upgrade Framework
 
-This framework is based on Ansible playbook. Following the Ansible [best practice principles](http://docs.ansible.com/ansible/playbooks_best_practices.html), the framework playbook directory structure is as below:
+This framework is based on Ansible playbook. Following the Ansible [best practice principles](http://docs.ansible.com/ansible/playbooks_best_practices.html), the framework playbook directory structure is designed as below. Please note that this is just a starting point of this framework andl the directory structure may be subject to future changes.
 
 ```
 ├── ansible.cfg
@@ -32,9 +32,6 @@ This framework is based on Ansible playbook. Following the Ansible [best practic
 │   └── all
 ├── hosts
 └── roles
-    ├── base_common
-    │   └── tasks
-    │       └── main.yml
     ├── base_dse
     │   └── tasks
     │       └── main.yml
@@ -73,6 +70,8 @@ This framework is based on Ansible playbook. Following the Ansible [best practic
 
 ```
 
+The high level description (as below) of the top level elements should be quite straightforward. Fore more background information about Ansible configuration file, inventory, playbook, and role, please check Ansible documentation. 
+
 | Top Level Item Name | Type   | Description  |
 | ------------------- | ------ | ------------ |
 | ansible.cfg         | File   | Configuration setting file to control Ansible execution behavior |
@@ -81,3 +80,8 @@ This framework is based on Ansible playbook. Following the Ansible [best practic
 | group_vars          | Folder | Global variables that are available to all playbooks |
 | hosts               | File   | Ansible inventory file |
 | roles               | Folder | Ansible roles (organization units) included in the playbooks | 
+
+
+### Define Ansible Inventory File (hosts)
+
+
