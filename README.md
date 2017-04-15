@@ -6,13 +6,15 @@ It is not a trivial task to provision a large DSE cluster, to manage the key con
 
 Starting from DSE 5.0, OpsCenter 6.0 (as part of DSE 5.0 release) introduces a new component called Life Cycle Manager (LCM) that is designed for efficient installation and configuration of a DSE cluster through a web based GUI. It aims to solve the above issue as an easy-to-use, out-of-the-box solution offered by DataStax. Although there are some limitations with the current version (OpsCenter 6.0.8 as the time of this writing), it is in general a good solution for automatic DSE cluster provisioning and configuration management. For more detailed information about this product, please reference to LCM's documentation page (https://docs.datastax.com/en/latest-opscenter/opsc/LCM/opscLCM.html). 
 
-  Unfortunately, while the current version of LCM does a great job in provisioning new cluster and managing configuration changes, it does not support DSE version upgrade yet. Meanwhile, the way that LCM schedules the execution of a job (provisioning new node or making configuration change) across the entire DSE cluster is in serial mode. This means that before finishing the execution of a job on one DSE node, LCM won't kick off the job on another node. Although correct, such a scheduling mechanism is not flexible and less efficient. 
+Unfortunately, while the current version of LCM does a great job in provisioning new cluster and managing configuration changes, it does not support DSE version upgrade yet. Meanwhile, the way that LCM schedules the execution of a job (provisioning new node or making configuration change) across the entire DSE cluster is in serial mode. This means that before finishing the execution of a job on one DSE node, LCM won't kick off the job on another node. Although correct, such a scheduling mechanism is not flexible and less efficient. 
 
 In an attempt to overcome the limitations of the (current version of) LCM and bring some flexibility in job execution scheduling across the entire DSE cluster, I created an Ansible framework (playbook) for:
 * Installing a brand new DSE cluster
 * Upgrading an existing DSE cluster to a newer version 
 
-This framework does have some configuration management capabilities (e.g. to make changes in cassandra.yaml file), but it is not yet a general tool to manage all DSE components related configuration files. However, using Ansible makes this job much easier and quite straightforward. I will cover this 
+**Note 1**: The framework is currently based on Debian packaged DSE installation or upgrade.
+
+**Note 2**: This framework does have some configuration management capabilities (e.g. to make changes in cassandra.yaml file), but it is not yet a general tool to manage all DSE components related configuration files. However, using Ansible makes this job much easier and quite straightforward. 
 
 ## 2. Ansible Introduction  
 
@@ -24,7 +26,7 @@ Ansible uses an ***inventory*** file to group the systems or host machines to be
 
 ## 3. DSE Install/Upgrade Framework
 
-This framework is based on Ansible playbook. Following the Ansible [best practice principles](http://docs.ansible.com/ansible/playbooks_best_practices.html), the framework playbook directory structure is designed as below. Please note that this is just a starting point of this framework andl the directory structure may be subject to future changes.
+This framework is based on Ansible playbook. Following the Ansible [best practice principles](http://docs.ansible.com/ansible/playbooks_best_practices.html), the framework playbook directory structure is designed as below. Please note that this is just a starting point of this framework and the directory structure will be subject to future changes.
 
 ```
 ├── ansible.cfg
@@ -111,4 +113,11 @@ nonseed_node2_ip
 
 ### 3.2. Group Variables
 
+Ansible uses the combination of ***hosts*** and ***group_vars*** to define group specific groups. Also, ***group_vars/all*** is used to specify the variables that are applicable to all managed hosts.
+
+For this framework, there are no group specific variables and all variables are applicable to all hosts. Some examples of these variables are:
+* The DataStax academy user email and password that are used to download DSE repository.
+* The DSE version to be installed or upgraded.
+
 ### 3.3. Playbook and Roles 
+
