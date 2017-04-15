@@ -121,3 +121,16 @@ For this framework, there are no group specific variables and all variables are 
 
 ### 3.3. Playbook and Roles 
 
+The Ansible roles defines the execution modules that can be included (and shared) in playbooks. The roles defined in this framework are:
+
+| Role name            | Description |
+| -------------------- | ----------- |
+| base_dse             | 
+| dse_install          |
+| dse_install_config   |
+| dse_start_svc        |
+| dse_stop_svc         |
+| dse_upgrade_binary   |
+| dse_upgrade_bkup     |
+| dse_upgrade_mergconf |
+| dse_upgrade_sstable  |
