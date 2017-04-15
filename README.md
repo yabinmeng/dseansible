@@ -125,12 +125,12 @@ The Ansible roles defines the execution modules that can be included (and shared
 
 | Role name            | Description |
 | -------------------- | ----------- |
-| base_dse             | 
-| dse_install          |
-| dse_install_config   |
-| dse_start_svc        |
-| dse_stop_svc         |
-| dse_upgrade_binary   |
-| dse_upgrade_bkup     |
-| dse_upgrade_mergconf |
-| dse_upgrade_sstable  |
+| base_dse             | Common execution steps required for DSE installation and upgrade |
+| dse_install          | DSE binary installation (Debian package) |
+| dse_install_config   | Customized configuration setup for DSE installation |
+| dse_start_svc        | Start DSE service and verify system log file |
+| dse_stop_svc         | Stop DSE service and verify system log file |
+| dse_upgrade_binary   | DSE binary version upgrade |
+| dse_upgrade_bkup     | Configuration and data backup before DSE version upgrade |
+| dse_upgrade_mergconf | Merge DSE configuration files after version upgrade |
+| dse_upgrade_sstable  | SSTable upgrade |
