@@ -223,6 +223,31 @@ This role is used for upgrading an existing DSE cluster to a newer version. It a
 
 #### 3.4.5  dse_updcfg
 
+At the moment, this role does the following DSE configuration settings:
+
+1. Set DSE default based on DSE DC workload property (as specified in the inventory file)
+
+2. Set the following key "cassandra.yaml" settings based on the global and host specific variables
+   1. cluster_name
+   2. seeds
+   3. endpoint_snitch (always set as GossipingPropertyFileSnitch)
+   4. listen_address
+   5. rpc_address
+   6. commitlog_directory
+   7. saved_cache_directory
+   8. hints_directory (only applicable to DSE 5.0+)
+   9. data_file_directories
+   10. num_tokens (if VNode setup is enabled)
+   11. initial_token_value (if single-token setup is enabled) 
+
+3. Set the following key "cassandra-rackdc.properties" settings based on the host specific variables
+   1. dc
+   2. rack
+
 #### 3.4.6  start_srvc
 
+Start DSE service; wait and verify it is completely up and running properly. The verification is done by checking Cassandra client port 9042 is in active LISTEN state.
+
 #### 3.4.7  stop_srvc
+
+Stop DSE service; wait and verify it is completely shutdown properly. The verification is done by checking that there is no DSE linux process is terminated.
