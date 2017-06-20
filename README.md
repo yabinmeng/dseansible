@@ -176,9 +176,23 @@ The Ansible roles defines the execution modules that can be included (and shared
 | Role name    | Description |
 | ------------ | ----------- |
 | datastax_pkg | DataStax APT package management |
-| dse_common   | Seed list calculation based on the inventory file definition for the managed hosts |
-| dse_insbin   | DSE Package binary installation for new DSE cluster |
-| dse_upgbin   | DSE Package binary installation for existing DSE cluster version upgrade |
+| dse_seed     | Seed list calculation based on the inventory file definition for the managed hosts |
+| dse_insbin   | DSE Package binary installation |
+| dse_upgbin   | DSE version upgrade |
 | dse_updcfg   | Upgrade DSE key configuration files |
 | start_srvc   | Start DSE service and verification |
 | stop_srvc    | Stop DSE service and verification |
+
+#### 3.4.1  datastax_pkg
+
+#### 3.4.2  dse_seed
+
+#### 3.4.3  dse_instbin
+
+#### 3.4.4  dse_upgbin
+
+#### 3.4.5  dse_updcfg
+
+#### 3.4.6  start_srvc
+
+#### 3.4.7  stop_srvc
