@@ -144,7 +144,21 @@ Within this framework, the following global variables are defined:
 | hints_directory       | N/A | Cassandra hints directory (note: only applicable to DSE 5.0+ |
 
 
-### 3.3. Playbook and Roles 
+### 3.3. Playbooks
+
+Playbooks are the top-level, standalone execution units for ansbile. For this framework, there are only two playbooks. The playbook can be executed using the following command (from the root directory of this framework):
+
+```
+   ansible-playbook -i ./hosts <playbook_name> --private-key=<ssh_private_key_file>
+```
+
+1. **dse_install.yml** is used for installing a brand new DSE cluster at a version as defined in "dse_ver_target" global variable.
+
+
+2. **dse_upgrade.yml** is used for upgrading an existing DSE cluster from the current version to a version as defined in "dse_ver_target" global variable. Please ***note*** that at the moment, the framework doesn't yet do sanity check around the DSE versions such as the target version must be newer than the current version.
+
+
+### 3.3. Roles 
 
 The Ansible roles defines the execution modules that can be included (and shared) in playbooks. The roles defined in this framework are:
 
