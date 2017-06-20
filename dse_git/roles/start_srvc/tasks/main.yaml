@@ -1,0 +1,12 @@
+---
+- name: Start cassandra or dse service
+  service:
+    name: "{{ srvc_name }}"
+    state: restarted
+
+- name: Wait for Cassandra process is up and running
+  wait_for:
+    host: "{{ ansible_host }}"
+    port: 9042
+    delay: 1
+    timeout: 300

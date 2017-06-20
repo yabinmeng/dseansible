@@ -1,0 +1,72 @@
+---
+# Get the current timestamp and register datastx debian packages
+- hosts: dse
+  any_errors_fatal: true
+  become: true
+  become_method: sudo
+  tasks:
+  - name: Get the current timestamp
+    shell: 'date +%Y%m%d%H%M%S'
+    register: current_timestamp
+  roles:
+  - { role: datastax_pkg }
+
+
+# Install and configure DSE
+- hosts: dse
+  any_errors_fatal: true
+  become: true
+  become_method: sudo
+  roles:
+    - { role: dse_common }
+    - { role: dse_instbin }
+    - { role: dse_updcfg }
+
+
+# Start DSE seed nodes 
+- hosts: dse
+  any_errors_fatal: true
+  name: Start seed node first one by one
+  serial: 1
+  become: true
+  become_method: sudo
+  vars:
+    srvc_name: dse
+  roles:
+    - { role: start_srvc, when: seed == 'true' } 
+#  tasks:
+#  - name: test
+#    when: seed|int == 1
+#    debug:
+#      msg: "{{ ansible_all_ipv4_addresses }}"
+   
+
+# Start DSE non-seed nodes 
+- hosts: dse
+  any_errors_fatal: true
+  name: Start non-seed node first one by one
+  serial: 1
+  become: true
+  become_method: sudo
+  vars:
+    srvc_name: dse
+  roles:
+    - { role: start_srvc, when: seed == 'false' }
+#  tasks:
+#  - name: test
+#    when: seed|int == 0
+#    debug:
+#      msg: "{{ ansible_all_ipv4_addresses }}"
+
+
+# Check DSE version and C* version
+- hosts: dse
+  tasks:
+  - name: Check Cassandra version
+    command: "nodetool version"
+    register: _cassandra_ver
+  - name: Check DSE version
+    command: "dse -v"
+    register: _dse_ver
+  - debug:
+     msg: "DSE Version: {{ _dse_ver.stdout }}; Cassandra Version: {{ _cassandra_ver.stdout }}"

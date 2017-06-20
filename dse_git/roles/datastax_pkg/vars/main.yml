@@ -1,0 +1,8 @@
+### Datastax repository file name
+#
+dse_repo_file: /etc/apt/sources.list.d/datastax.sources.list
+
+### User name and password to download DSE (DataStax Academy)
+#
+dse_repo_email: <your_datastax_academy_email>
+dse_repo_password: <your_datastax_academy_password>

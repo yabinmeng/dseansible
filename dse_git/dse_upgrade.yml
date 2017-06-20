@@ -1,0 +1,56 @@
+---
+# Get the current timestamp and register datastx debian packages
+- hosts: dse
+  any_errors_fatal: true
+  become: true
+  become_method: sudo
+  tasks:
+  - name: Get the current timestamp
+    shell: 'date +%Y%m%d%H%M%S'
+    register: current_timestamp
+  roles:
+  - { role: datastax_pkg }
+
+
+##########################
+## Execute the followin steps in rolling fashion mode
+## - serial: 1
+
+## Upgrade from DSE version:
+#  - stop service
+#  - remove the old package
+#  - install the new package
+#  - update configuration file
+#  - start service
+#  - upgrade SSTables
+#
+- hosts: dse
+  any_errors_fatal: true
+  become: true
+  become_method: sudo
+  serial: 1
+  vars:
+    srvc_name: dse
+    srvc_pid_path: /var/run/dse/dse.pid
+  roles:
+    - { role: stop_srvc }
+    - { role: dse_common }
+    - { role: dse_upgbin }
+    - { role: dse_updcfg }
+    - { role: start_srvc }
+  tasks:
+  - name: Upgrade SSTable
+    command: "nodetool upgradesstables"
+
+
+# Check DSE version and C* version
+- hosts: dse
+  tasks:
+  - name: Check Cassandra version
+    command: "nodetool version"
+    register: _cassandra_ver
+  - name: Check DSE version
+    command: "dse -v"
+    register: _dse_ver
+  - debug:
+     msg: "DSE Version: {{ _dse_ver.stdout }}; Cassandra Version: {{ _cassandra_ver.stdout }}"

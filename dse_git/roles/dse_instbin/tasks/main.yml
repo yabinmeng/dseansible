@@ -1,0 +1,52 @@
+---
+- name: Install DSE version 5.0+
+  when: dse_ver_target|version_compare('5.0', '>=') 
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - "dse-full={{ dse_ver_target }}-1"
+    - "dse={{ dse_ver_target }}-1"
+    - "dse-libgraph={{ dse_ver_target }}-1"
+    - "dse-hive={{ dse_ver_target }}-1"
+    - "dse-libhive={{ dse_ver_target }}-1"
+    - "dse-pig={{ dse_ver_target }}-1"
+    - "dse-libpig={{ dse_ver_target }}-1"
+    - "dse-libsolr={{ dse_ver_target }}-1"
+    - "dse-libtomcat={{ dse_ver_target }}-1"
+    - "dse-libsqoop={{ dse_ver_target }}-1"
+    - "dse-liblog4j={{ dse_ver_target }}-1"
+    - "dse-libmahout={{ dse_ver_target }}-1"
+    - "dse-libspark={{ dse_ver_target }}-1"
+    - "dse-libcassandra={{ dse_ver_target }}-1"
+    - "dse-libspark={{ dse_ver_target }}-1"
+    - "dse-libhadoop={{ dse_ver_target }}-1"
+    - "dse-libhadoop-native={{ dse_ver_target }}-1"
+    - "dse-libhadoop2-client={{ dse_ver_target }}-1"
+    - "dse-libhadoop2-client-native={{ dse_ver_target }}-1"
+
+- name: Install DSE version 4.x
+  when: dse_ver_target | version_compare('5.0', '<')
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - "dse-full={{ dse_ver_target }}-1"
+    - "dse={{ dse_ver_target }}-1"
+    - "dse-demos={{ dse_ver_target }}-1"
+    - "dse-hive={{ dse_ver_target }}-1"
+    - "dse-libhive={{ dse_ver_target }}-1"
+    - "dse-pig={{ dse_ver_target }}-1"
+    - "dse-libpig={{ dse_ver_target }}-1"
+    - "dse-libsolr={{ dse_ver_target }}-1"
+    - "dse-libtomcat={{ dse_ver_target }}-1"
+    - "dse-libsqoop={{ dse_ver_target }}-1"
+    - "dse-liblog4j={{ dse_ver_target }}-1"
+    - "dse-libmahout={{ dse_ver_target }}-1"
+    - "dse-libspark={{ dse_ver_target }}-1"
+    - "dse-libcassandra={{ dse_ver_target }}-1"
+    - "dse-libspark={{ dse_ver_target }}-1"
+    - "dse-libhadoop={{ dse_ver_target }}-1"
+    - "dse-libhadoop-native={{ dse_ver_target }}-1"

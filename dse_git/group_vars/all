@@ -1,0 +1,45 @@
+---
+### Host connection 
+#   - connection type: SSH
+#   - default SSH user 
+#
+ansible_connection: ssh
+ansible_user: <your_SSH_user_name>
+
+
+# Home directory for backup 
+backup_homedir: <home_directory_for_backup>
+
+
+### Target/Current DSE verson
+#   - dse_ver_target:
+#     for fresh install, dse_ver_target is the version to be installed
+#     for upgrade, dse_ver_target is the version to be upgraded to
+#
+#dse_ver_target:  4.8.13
+dse_ver_target:  5.0.8
+
+
+### DSE system file location
+#
+dse_config_dir: /etc/dse
+dse_default_dir: /etc/default
+dse_syslog_dir: /var/log/cassandra
+
+
+### Key cassandra.yaml settings
+
+#  DSE VNode setup
+#
+# default vnode token_num setting for C*
+vnode_token_num: 128
+# default vnode token_num setting for Solr enabled node
+vnode_token_num_solr: 16
+
+## DSE cluster name and other configuration items
+#
+cluster_name: MyTestCluster
+data_file_directories: /dse_data/cassandra
+hints_directory: /dse_data/hints
+commitlog_directory: /dse_data/commitlog
+saved_caches_directory: /dse_data/saved_cahces

@@ -1,0 +1,142 @@
+---
+- name: Determine the right VNode num_token value 
+  when: solr_enabled|int == 1
+  set_fact: vnode_token_num={{ vnode_token_num_solr }}
+
+
+#- debug: msg="{{ private_ip }}, {{ dc }}, {{ rack }}, {{ vnode }}, {{ vnode_token_num }}, {{ initial_token }}, {{ solr_enabled }}, {{ spark_enabled }}, {{ graph_enabled }}, {{ auto_bootstrap }}, {{ cluster_name }}, {{ data_file_directories }}, {{ commitlog_directory }}, {{ saved_caches_directory }}, {{ seeds }}"
+
+
+- name: Configure DSE Analytics workload type
+  when: spark_enabled|int == 1
+  lineinfile:
+    name: "{{ dse_default_dir }}/dse"
+    regexp: '^SPARK_ENABLED='
+    line: "SPARK_ENABLED=1"
+    owner: cassandra
+    group: cassandra
+    mode: 0644
+
+
+- name: Configure DSE Search workload type
+  when: solr_enabled|int == 1
+  lineinfile:
+    name: "{{ dse_default_dir }}/dse"
+    regexp: '^SOLR_ENABLED='
+    line: "SOLR_ENABLED=1"
+    owner: cassandra
+    group: cassandra
+    mode: 0644
+
+
+- name: Configure DSE Graph workload type
+  when: dse_ver_target|version_compare('5.0', '>=') and graph_enabled|int == 1
+  lineinfile:
+    name: "{{ dse_default_dir }}/dse"
+    regexp: '^GRAPH_ENABLED='
+    line: "GRAPH_ENABLED=1"
+    owner: cassandra
+    group: cassandra
+    mode: 0644
+
+
+- name: Configure Cassandra VNode, if enabled 
+  when: vnode|int == 1
+  lineinfile:
+    name: "{{ dse_config_dir }}/cassandra/cassandra.yaml"
+    regexp: 'num_tokens\:'
+    line: "num_tokens: {{ vnode_token_num }}"
+    owner: cassandra
+    group: cassandra
+    mode: 0644
+
+
+- name: Configure single-token value, if VNode is NOT enabled (cassandra.yaml)
+  when: vnode|int == 0
+  lineinfile:
+    name: "{{ dse_config_dir }}/cassandra/cassandra.yaml"
+    regexp: 'initial_token\:'
+    line: "initial_token: {{ initial_token }}"
+    owner: cassandra
+    group: cassandra
+    mode: 0644
+
+
+- name: Create Cassandra directories for data, commitlog, saved_caches
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: cassandra
+    group: cassandra
+    mode: 0755
+  with_items:
+    - "{{ data_file_directories }}"
+    - "{{ commitlog_directory }}"
+    - "{{ saved_caches_directory }}"
+
+
+- name: Create Cassandra directory for hitns (only applicable to DSE 5.0+)
+  when: dse_ver_target|version_compare('5.0', '>=') 
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: cassandra
+    group: cassandra
+    mode: 0755
+  with_items:
+    - "{{ hints_directory }}"
+
+
+- name: Configure DSE cluster name, seeds list, endpoint_snitch, listen_address, rpc_address, broadcast_rpc_address, commitlog_directory, and saved_caches_directory (cassandra.yaml)
+  lineinfile:
+    name: "{{ dse_config_dir }}/cassandra/cassandra.yaml"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    owner: cassandra
+    group: cassandra
+    mode: 0644
+  with_items:
+    - { regexp: 'cluster_name\:', line: "cluster_name: '{{ cluster_name }}'" }
+    - { regexp: '- seeds\:', line: '          - seeds: "{{ seeds }}"' }
+    - { regexp: 'endpoint_snitch\:', line: "endpoint_snitch: GossipingPropertyFileSnitch" }
+    - { regexp: '^listen_address\:', line: "listen_address: {{ ansible_default_ipv4.address }}" }
+    - { regexp: '^rpc_address\:', line: "listen_address: {{ ansible_default_ipv4.address }}" }
+#    - { regexp: '^rpc_address\:', line: "rpc_address: 0.0.0.0" }
+#    - { regexp: '#*\s*broadcast_rpc_address\:', line: "broadcast_rpc_address: {{ ansible_default_ipv4.address }}" }
+    - { regexp: '^commitlog_directory\:', line: 'commitlog_directory: {{ commitlog_directory }}' }
+    - { regexp: '^saved_caches_directory\:', line: 'saved_caches_directory: {{ saved_caches_directory }}' }
+
+
+- name: Configure DSE hints_directory (cassandra.yaml), DSE 5.0+ only
+  when: dse_ver_target|version_compare('5.0', '>=') 
+  lineinfile:
+    name: "{{ dse_config_dir }}/cassandra/cassandra.yaml"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    owner: cassandra
+    group: cassandra
+    mode: 0644
+  with_items:
+    - { regexp: '^hints_directory\:', line: 'hints_directory: {{ hints_directory }}' }
+
+- name: Configure Cassandra data directory (cassandra.yaml)
+  replace:
+    name: "{{ dse_config_dir }}/cassandra/cassandra.yaml"
+    regexp: "- /var/lib/cassandra/data"
+    replace: "- {{ data_file_directories }}"
+    owner: cassandra
+    group: cassandra
+    mode: 0644
+
+
+- name: Configure DC and Rack settings (cassandra-rackdc.properties)
+  lineinfile:
+    name: "{{ dse_config_dir }}/cassandra/cassandra-rackdc.properties"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    owner: cassandra
+    group: cassandra
+    mode: 0644
+  with_items:
+    - { regexp: 'dc\=', line: 'dc={{ dc }}' }
+    - { regexp: 'rack\=', line: 'rack={{ rack }}' }

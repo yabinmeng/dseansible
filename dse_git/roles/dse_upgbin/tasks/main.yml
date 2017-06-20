@@ -1,0 +1,34 @@
+---
+- name: Create time-stamp based backup lcoation under backuproot
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ backup_homedir }}/{{ current_timestamp.stdout }}/cassandra"
+    - "{{ backup_homedir }}/{{ current_timestamp.stdout }}/spark"
+    - "{{ backup_homedir }}/{{ current_timestamp.stdout }}/default"
+
+
+- name: Backup cassandra.yaml and cassandra-rackdc.properties
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ backup_homedir }}/{{ current_timestamp.stdout }}/{{ item.dest }}"
+    remote_src: true
+  with_items:
+    - { src: "{{ dse_config_dir }}/dse.yaml", dest: '.' }
+    - { src: "{{ dse_default_dir }}/dse", dest: 'default' }
+    - { src: "{{ dse_config_dir }}/cassandra/cassandra.yaml", dest: 'cassandra' }
+    - { src: "{{ dse_config_dir }}/cassandra/cassandra-rackdc.properties", dest: 'cassandra' }
+    - { src: "{{ dse_config_dir }}/spark/dse-spark-env.sh", dest: 'spark' }
+    - { src: "{{ dse_config_dir }}/spark/spark-env.sh", dest: 'spark' }
+
+- name: Remove old DSE package
+  apt:
+    name: "dse-*"
+    state: absent
+    update_cache: yes
+    purge: yes
+
+- name: Install the specified DSE version 
+  include_role:
+    name: dse_instbin

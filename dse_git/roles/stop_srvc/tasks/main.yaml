@@ -1,0 +1,29 @@
+---
+- name: Get "cassandra/dse" service status
+  stat: 
+    path: "{{ srvc_pid_path }}"
+  register: caspid
+
+- name: Gracefully shutdown cassandra node if the service is running
+  when: caspid.stat.exists
+  command: "{{ item }}"
+  with_items:
+    - "nodetool flush"
+#    - "nodetool snapshot"
+    - "nodetool disablethrift"
+    - "nodetool disablebinary"
+    - "nodetool disablegossip"
+    - "nodetool drain"
+
+- name: Shut down "cassandra/dse" service if it is up
+  when: caspid.stat.exists
+  service:
+    name: "{{ srvc_name }}"
+    state: stopped
+
+- name: Wait for Cassandra process is stopped (cassandra/dse PID is gone)
+  wait_for:
+    path: "{{ srvc_pid_path }}"
+    state: absent
+    delay: 1
+    timeout: 300
