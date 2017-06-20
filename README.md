@@ -169,18 +169,16 @@ Playbooks are the top-level, standalone execution units for ansbile. For this fr
 The different steps in the playbooks are actually organized around (ansible) roles. 
 
 
-### 3.3. Roles 
+### 3.4. Roles 
 
 The Ansible roles defines the execution modules that can be included (and shared) in playbooks. The roles defined in this framework are:
 
-| Role name            | Description |
-| -------------------- | ----------- |
-| base_dse             | Common execution steps required for DSE installation and upgrade |
-| dse_install          | DSE binary installation (Debian package) |
-| dse_install_config   | Customized configuration setup for DSE installation |
-| dse_start_svc        | Start DSE service and verify system log file |
-| dse_stop_svc         | Stop DSE service and verify system log file |
-| dse_upgrade_binary   | DSE binary version upgrade |
-| dse_upgrade_bkup     | Configuration and data backup before DSE version upgrade |
-| dse_upgrade_mergconf | Merge DSE configuration files after version upgrade |
-| dse_upgrade_sstable  | SSTable upgrade |
+| Role name    | Description |
+| ------------ | ----------- |
+| datastax_pkg | DataStax APT package management |
+| dse_common   | Seed list calculation based on the inventory file definition for the managed hosts |
+| dse_insbin   | DSE Package binary installation for new DSE cluster |
+| dse_upgbin   | DSE Package binary installation for existing DSE cluster version upgrade |
+| dse_updcfg   | Upgrade DSE key configuration files |
+| start_srvc   | Start DSE service and verification |
+| stop_srvc    | Stop DSE service and verification |
