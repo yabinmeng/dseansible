@@ -83,11 +83,19 @@ The table below gives the high level description of the top level elements in th
 The managed hosts can be put in different groups. Each managed host and the group it belongs to can have their own properties. Based on this understanding, the hosts file in this framework is organized such that:
 1. the managed hosts into DSE data-centers (DCs). 
 2. each DC defines the following attributes:
-   1. a
-   2. b
+   1. whether Solr workload isenabled in the DC
+   2. whether Spark workload is enabled in the DC
+   3. whether Graph workload is enabled in the DC (only applicable to DSE version 5.0+)
+   4. whether the DC should be "auto_bootstrap"-ped (e.g. whehter the DC is to join an existing cluster)
+3. each managed host defines the following attributes:
+   1. the private IP, if any, of the host
+   2. whether the host is a seed node
+   3. the DSE DC name that the host belongs to
+   4. the rack name that the host belongs to
+   5. whether the host is using VNode. if true (1), "intial_token" property (below) must be empty
+   6. what is the initial_token value. if specified, the "vnode" property must be 0
 
-
-Below is an exmple:
+Below is an exmple for a 2-DC DSE cluster. Eac DC has 2 nodes. The 1st DC is VNode enabled and has only Cassandra workload. The 2nd is using single-token setup and also has Solr workload enabled. 
 
 ```
 [dse:children]
