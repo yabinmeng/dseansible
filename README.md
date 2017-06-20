@@ -176,16 +176,30 @@ The Ansible roles defines the execution modules that can be included (and shared
 | Role name    | Description |
 | ------------ | ----------- |
 | datastax_pkg | DataStax APT package management |
-| dse_seed     | Seed list calculation based on the inventory file definition for the managed hosts |
+| dse_common     | Seed list calculation based on the inventory file definition for the managed hosts |
 | dse_insbin   | DSE Package binary installation |
 | dse_upgbin   | DSE version upgrade |
 | dse_updcfg   | Upgrade DSE key configuration files |
 | start_srvc   | Start DSE service and verification |
 | stop_srvc    | Stop DSE service and verification |
 
+The scripts for these roles are quite straightforward. Some of the points worthy to mention are listed in the sub-sections below.
+
 #### 3.4.1  datastax_pkg
 
-#### 3.4.2  dse_seed
+This role defines several variables related with DSE package management. 
+
+```
+   ### Datastax repository file name
+   dse_repo_file: /etc/apt/sources.list.d/datastax.sources.list
+
+   ### User name and password to download DSE (DataStax Academy)
+   dse_repo_email: <your_datastax_academy_email>
+   dse_repo_password: <your_datastax_academy_password>
+```
+#### 3.4.2  dse_common
+
+The main goal of this role is to calculate the proper seed list for the DSE cluster based on the "seed" property information as defined for each managed host in the inventory file. The core calculation logic is defined in an ansible template file (templates/seeds.js2). 
 
 #### 3.4.3  dse_instbin
 
