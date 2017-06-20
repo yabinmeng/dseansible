@@ -1,6 +1,3 @@
-=== Working in Progress ===
-
-
 # Manage DataStax Enterprise (DSE) Installation and Version Upgrade Using Ansible Playbook
 
 ## 1. Overview
@@ -80,7 +77,7 @@ The table below gives the high level description of the top level elements in th
 
 ### 3.1. Define Inventory File (hosts)
 
-The managed hosts can be put in different groups. Each managed host and the group it belongs to can have their own properties. Based on this understanding, the hosts file in this framework is organized such that:
+The managed hosts can be put in different groups. Each managed host and the group it belongs to can have their own properties (or variables). Based on this understanding, the hosts file in this framework is organized such that:
 1. the managed hosts into DSE data-centers (DCs). 
 2. each DC defines the following attributes:
    1. whether Solr workload isenabled in the DC
@@ -95,7 +92,7 @@ The managed hosts can be put in different groups. Each managed host and the grou
    5. whether the host is using VNode. if true (1), "intial_token" property (below) must be empty
    6. what is the initial_token value. if specified, the "vnode" property must be 0
 
-Below is an exmple for a 2-DC DSE cluster. Eac DC has 2 nodes. The 1st DC is VNode enabled and has only Cassandra workload. The 2nd is using single-token setup and also has Solr workload enabled. 
+Below is an exmple for a 2-DC DSE cluster. Eac DC has 2 nodes. The 1st DC (DC1) is VNode enabled and has only Cassandra workload. The 2nd DC (DC2) is using single-token setup and also has Solr workload enabled. 
 
 ```
 [dse:children]
@@ -103,12 +100,12 @@ dse_dc1
 dse_dc2
 
 [dse_dc1]
-104.197.33.225 private_ip=10.240.0.3 seed=true dc=DC1 rack=RAC1 vnode=1 initial_token=
-104.154.92.155 private_ip=10.240.0.7 seed=false dc=DC1 rack=RAC1 vnode=1 initial_token=
+<node1_public_ip> private_ip=<node1_private_ip> seed=true dc=DC1 rack=RAC1 vnode=1 initial_token=
+<node2_public_ip> private_ip=<node2_private_ip> seed=false dc=DC1 rack=RAC1 vnode=1 initial_token=
 
 [dse_dc2]
-35.184.5.182 private_ip=10.240.0.5 seed=true dc=DC2 rack=RAC1 vnode=0 initial_token=-9223372036854775808
-35.184.173.92 private_ip=10.240.0.6 seed=false dc=DC2 rack=RAC1 vnode=0 initial_token=0
+<node3_public_ip> private_ip=<node3_private_ip> seed=true dc=DC2 rack=RAC1 vnode=0 initial_token=-9223372036854775808
+<node4_public_ip> private_ip=<node4_private_ip> seed=false dc=DC2 rack=RAC1 vnode=0 initial_token=0
 
 [dse_dc1:vars]
 solr_enabled=0
@@ -126,11 +123,26 @@ auto_bootstrap=1
 
 ### 3.2. Group Variables
 
-Ansible uses the combination of ***hosts*** and ***group_vars*** to define group specific groups. Also, ***group_vars/all*** is used to specify the variables that are applicable to all managed hosts.
+Other than the host-specific variables as defined in the inventory file (***hosts***). Group and global variables can also be put in ***group_vars*** sub-folder. In particular, ***group_vars/all*** file is used to specify the variables that are applicable to all managed hosts, no matter what groups the hosts belong to. 
 
-For this framework, there are no group specific variables and all variables are applicable to all hosts. Some examples of these variables are:
-* The DataStax academy user email and password that are used to download DSE repository.
-* The DSE version to be installed or upgraded.
+Within this framework, the following global variables are defined:
+
+| Global Varialbe       | Default Value | Description   |
+| --------------------- | ------------- | ------------- |
+| ansible_connection    | ssh | what connection method is used for ansible |
+| ansible_user          | N/A | the SSH user used to connect to the managed hosts |
+| backup_homedir        | N/A | the home diretory for backing up DSE configuration files |
+| dse_ver_target        | N/A | the target DSE version to be installed or upgraded to |
+| dse_config_dir        | /etc/dse | the home directory of DSE configuraion files |
+| dse_default_dir       | /etc/default | the home directory of DSE default setting file |
+| vnode_token_num       | 128 | num_token value setting for VNode setup | 
+| vnode_token_num_solr  | 8 | num_token value setting for VNode setup when Solr workload is enabled |
+| cluster_name          | N/A | DSE cluster name |
+| data_file_directories | N/A | Cassandra data directory (note: JBOD is NOT supported yet) |
+| commitlog_directory   | N/A | Cassandra commitlog directory |
+| saved_caches_directory| N/A | Cassandra saved_caches directory |
+| hints_directory       | N/A | Cassandra hints directory (note: only applicable to DSE 5.0+ |
+
 
 ### 3.3. Playbook and Roles 
 
