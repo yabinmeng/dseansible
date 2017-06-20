@@ -81,9 +81,10 @@ The table below gives the high level description of the top level elements in th
 ### 3.1. Define Inventory File (hosts)
 
 The managed hosts can be put in different groups. Each managed host and the group it belongs to can have their own properties. Based on this understanding, the hosts file in this framework is organized such that:
-1). the managed hosts into DSE data-centers (DCs). 
-2). each DC defines the following attributes:
-    a). 
+1. the managed hosts into DSE data-centers (DCs). 
+2. each DC defines the following attributes:
+   1. a
+   2. b
 
 
 Below is an exmple:
