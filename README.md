@@ -152,10 +152,25 @@ Playbooks are the top-level, standalone execution units for ansbile. For this fr
    ansible-playbook -i ./hosts <playbook_name> --private-key=<ssh_private_key_file>
 ```
 
-1. **dse_install.yml** is used for installing a brand new DSE cluster at a version as defined in "dse_ver_target" global variable.
+1. **dse_install.yml** is used for installing a brand new DSE cluster at a version as defined in "dse_ver_target" global variable. 
 
+At high level, what this playbook does is summarized as below:
+   1. Calculate the seed list from the host-specific varaibles defined in the inventory file
+   2. Install the specified DSE version (concurrently on all managed hosts)
+   3. Configure DSE default workload, cassandra.yaml, and cassandra-rackdc.propertities files based on the global and host-specific varaibles
+   4. Start seed node one by one. Verify the service is successfully up and running.
+   5. Start non-seed node one by one. Verify the service is successfully up and running.
 
 2. **dse_upgrade.yml** is used for upgrading an existing DSE cluster from the current version to a version as defined in "dse_ver_target" global variable. Please ***note*** that at the moment, the framework doesn't yet do sanity check around the DSE versions such as the target version must be newer than the current version.
+
+At high level, what this playbook does is summarized as below. Please note that due to the upgrade nature, the tasks are executed among all managed hosts in serial mode. This means that only when all steps are succesfully executed on one node then the execution moves to the next node.
+   1. Stop DSE service and verify the service is successfully stopped
+   2. Calculate the seed list from the host-specific varaibles defined in the inventory file
+   2. Upgrade the DSE binary from the old version to the new version
+   3. Configure DSE default workload, cassandra.yaml, and cassandra-rackdc.propertities files based on the global and host-specific varaibles
+   4. Start DSE service and verify the service is successfully up and running.
+
+The different steps in the playbooks are actually organized around (ansible) roles. 
 
 
 ### 3.3. Roles 
