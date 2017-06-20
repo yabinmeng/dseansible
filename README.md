@@ -207,6 +207,20 @@ This role is shared for both installing brand new DSE cluster and version ugprad
 
 #### 3.4.4  dse_upgbin
 
+This role is used for upgrading an existing DSE cluster to a newer version. It achieves so by doing the following 3 major steps of tasks:
+
+1. Create a backup folder and backup the key DSE configuration files. If other configuration files need to be backed up, please modify this role (./roles/dse_upgbin/tasks/main.yml) accordingly.
+   1. DSE default (e.g. /etc/default/dse)
+   2. cassandra.yaml
+   3. cassandra-rackdc.properties
+   4. dse.yaml
+   5. dse-spark-env.sh
+   6. spark-env.sh
+
+2. Remove the old DSE APT package (dse-*)
+
+3. Install the new DSE APT package (through role **dse_instbin** )
+
 #### 3.4.5  dse_updcfg
 
 #### 3.4.6  start_srvc
