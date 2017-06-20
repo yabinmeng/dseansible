@@ -34,7 +34,7 @@ dse_syslog_dir: /var/log/cassandra
 # default vnode token_num setting for C*
 vnode_token_num: 128
 # default vnode token_num setting for Solr enabled node
-vnode_token_num_solr: 16
+vnode_token_num_solr: 8
 
 ## DSE cluster name and other configuration items
 #
