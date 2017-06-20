@@ -203,6 +203,8 @@ The main goal of this role is to calculate the proper seed list for the DSE clus
 
 #### 3.4.3  dse_instbin
 
+This role is shared for both installing brand new DSE cluster and version ugprading existing DSE cluster. Since the DataStax APT packages for version 4.x and 5.x are different (e.g. Graph component is new to DSE 5.0+), the script is actually designed to detect the DSE version, so the proper packages are installed. 
+
 #### 3.4.4  dse_upgbin
 
 #### 3.4.5  dse_updcfg
