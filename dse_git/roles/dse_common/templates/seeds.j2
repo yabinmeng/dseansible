@@ -1,5 +1,6 @@
 {% set seeds = []  %}
-{% for node in groups['dse_dc1'] | union(groups['dse_dc2']) %}
+#{% for node in groups['dse_dc1'] | union(groups['dse_dc2']) %}
+{% for node in groups['dse'] %}
 {% if hostvars[node].seed == "true" %}
 {% set ignored = seeds.append( hostvars[node].private_ip ) %}
 {% endif %}
