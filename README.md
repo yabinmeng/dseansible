@@ -132,9 +132,11 @@ Within this framework, the following global variables are defined:
 | ansible_connection    | ssh | what connection method is used for ansible |
 | ansible_user          | N/A | the SSH user used to connect to the managed hosts |
 | backup_homedir        | N/A | the home diretory for backing up DSE configuration files |
-| dse_ver_target        | N/A | the target DSE version to be installed or upgraded to |
+| dse_ver_major         | N/A | the major DSE version (4.8, 5.0, 5.1, etc.) to be installed or upgraded to |
+| dse_ver_minor         | N/A | the minor DSE version (x.x.1, x.x.7, etc.) associated with the major version |
 | dse_config_dir        | /etc/dse | the home directory of DSE configuraion files |
 | dse_default_dir       | /etc/default | the home directory of DSE default setting file |
+| dse_syslog_dir        | /var/log/cassandra | the home directory of DSE system logs |
 | vnode_token_num       | 128 | num_token value setting for VNode setup | 
 | vnode_token_num_solr  | 8 | num_token value setting for VNode setup when Solr workload is enabled |
 | cluster_name          | N/A | DSE cluster name |
