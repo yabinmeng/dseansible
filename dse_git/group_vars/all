@@ -16,9 +16,9 @@ backup_homedir: <home_directory_for_backup>
 #     for fresh install, dse_ver_target is the version to be installed
 #     for upgrade, dse_ver_target is the version to be upgraded to
 #
-#dse_ver_target:  4.8.13
-dse_ver_target:  5.0.8
-
+dse_ver_major: 5.1
+dse_ver_minor: 7
+dse_ver_target:  "{{ dse_ver_major }}.{{ dse_ver_minor }}"
 
 ### DSE system file location
 #
