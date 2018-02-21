@@ -30,7 +30,7 @@
 
 
 - name: Configure DSE Graph workload type
-  when: dse_ver_target|version_compare('5.0', '>=') and graph_enabled|int == 1
+  when: dse_ver_major|version_compare('5.0', '>=') and graph_enabled|int == 1
   lineinfile:
     name: "{{ dse_default_dir }}/dse"
     regexp: '^GRAPH_ENABLED='
@@ -76,7 +76,7 @@
 
 
 - name: Create Cassandra directory for hitns (only applicable to DSE 5.0+)
-  when: dse_ver_target|version_compare('5.0', '>=') 
+  when: dse_ver_major|version_compare('5.0', '>=') 
   file:
     path: "{{ item }}"
     state: directory
@@ -108,7 +108,7 @@
 
 
 - name: Configure DSE hints_directory (cassandra.yaml), DSE 5.0+ only
-  when: dse_ver_target|version_compare('5.0', '>=') 
+  when: dse_ver_major|version_compare('5.0', '>=') 
   lineinfile:
     name: "{{ dse_config_dir }}/cassandra/cassandra.yaml"
     regexp: "{{ item.regexp }}"
