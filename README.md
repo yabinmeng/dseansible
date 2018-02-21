@@ -137,7 +137,7 @@ Within this framework, the following global variables are defined:
 | dse_config_dir        | /etc/dse | the home directory of DSE configuraion files |
 | dse_default_dir       | /etc/default | the home directory of DSE default setting file |
 | dse_syslog_dir        | /var/log/cassandra | the home directory of DSE system logs |
-| vnode_token_num       | 128 | num_token value setting for VNode setup | 
+| vnode_token_num       | 64 | num_token value setting for VNode setup | 
 | vnode_token_num_solr  | 8 | num_token value setting for VNode setup when Solr workload is enabled |
 | cluster_name          | N/A | DSE cluster name |
 | data_file_directories | N/A | Cassandra data directory (note: JBOD is NOT supported yet) |
