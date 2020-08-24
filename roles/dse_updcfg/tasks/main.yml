@@ -107,7 +107,7 @@
     - { regexp: '^commitlog_directory\:', line: 'commitlog_directory: {{ commitlog_directory }}' }
     - { regexp: '^saved_caches_directory\:', line: 'saved_caches_directory: {{ saved_caches_directory }}' }
     - { regexp: '^hints_directory\:', line: 'hints_directory: {{ hints_directory }}' }
-    - { regexp: '^cdc_raw_directory\:', line: 'cdc_raw_directory: {{ hints_directory }}' }
+    - { regexp: '^cdc_raw_directory\:', line: 'cdc_raw_directory: {{ cdc_raw_directory }}' }
     - { regexp: 'allocate_tokens_for_local_replication_factor\:', line: 'allocate_tokens_for_local_replication_factor: 3' }
 
 - name: Configure DSE rpc_address and broadcast_rpc_address (only applicable to 5.0 and 5.1)
@@ -148,7 +148,7 @@
     group: cassandra
     mode: 0644
   with_items:
-    - { regexp: '^metadata_directory\:', line: 'metadata_directory: {{ hints_directory }}' }
+    - { regexp: '^metadata_directory\:', line: 'metadata_directory: {{ metadata_directory }}' }
 
 - name: Configure Cassandra data directory (cassandra.yaml)
   replace:
