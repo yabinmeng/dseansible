@@ -4,13 +4,13 @@ dse_dc2
 
 [dse_dc1]
 <dc1_node1_public_ip_address> private_ip=<dc1_node1_private_ip_address> seed=true dc=DC1 rack=RAC1 vnode=1 initial_token=
-<dc1_node2_public_ip_address> private_ip=<dc1_node1_private_ip_address> seed=true dc=DC1 rack=RAC1 vnode=1 initial_token=
-<dc1_node3_public_ip_address> private_ip=<dc1_node3_private_ip_address> seed=true dc=DC1 rack=RAC1 vnode=1 initial_token=
+<dc1_node2_public_ip_address> private_ip=<dc1_node1_private_ip_address> seed=false dc=DC1 rack=RAC1 vnode=1 initial_token=
+<dc1_node3_public_ip_address> private_ip=<dc1_node3_private_ip_address> seed=false dc=DC1 rack=RAC1 vnode=1 initial_token=
 
 [dse_dc2]
-<dc2_node1_public_ip_address> private_ip=<dc2_node1_private_ip_address> seed=true dc=DC1 rack=RAC1 vnode=1 initial_token=
-<dc2_node2_public_ip_address> private_ip=<dc2_node2_private_ip_address> seed=true dc=DC1 rack=RAC1 vnode=1 initial_token=
-<dc2_node3_public_ip_address> private_ip=<dc2_node3_private_ip_address> seed=true dc=DC1 rack=RAC1 vnode=1 initial_token=
+<dc2_node1_public_ip_address> private_ip=<dc2_node1_private_ip_address> seed=true dc=DC2 rack=RAC1 vnode=1 initial_token=
+<dc2_node2_public_ip_address> private_ip=<dc2_node2_private_ip_address> seed=false dc=DC2 rack=RAC1 vnode=1 initial_token=
+<dc2_node3_public_ip_address> private_ip=<dc2_node3_private_ip_address> seed=false dc=DC2 rack=RAC1 vnode=1 initial_token=
 
 [dse_dc1:vars]
 solr_enabled=0
