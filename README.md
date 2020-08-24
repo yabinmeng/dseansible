@@ -229,11 +229,9 @@ This role is used for upgrading an existing DSE cluster to a newer version. It a
 
 1. Create a backup folder and backup the key DSE configuration files. If other configuration files need to be backed up, please modify this role (./roles/dse_upgbin/tasks/main.yml) accordingly.
    1. DSE default (e.g. /etc/default/dse)
-   2. cassandra.yaml
-   3. cassandra-rackdc.properties
-   4. dse.yaml
-   5. dse-spark-env.sh
-   6. spark-env.sh
+   2. cassandra/*
+   3. dse.yaml
+   4. spark/*
 
 2. Remove the old DSE APT package (dse-*)
 
@@ -252,12 +250,14 @@ At the moment, this role does the following DSE configuration settings:
    4. listen_address
    5. rpc_address
    6. commitlog_directory
-   7. saved_cache_directory
-   8. hints_directory (only applicable to DSE 5.0+)
-   9. cdc_raw_directory (only applicable to DSE 5.0+)
-   10. data_file_directories
-   11. num_tokens (if VNode setup is enabled)
-   12. initial_token_value (if single-token setup is enabled) 
+   7. data_file_directories
+   8. saved_cache_directory
+   9. hints_directory (only applicable to DSE 5.0+)
+   10. cdc_raw_directory (only applicable to DSE 5.0+)
+   11. metadata_directory (only applicable to DSE 6.8+)
+   12. num_tokens (if VNode setup is enabled)
+   13. initial_token_value (if single-token setup is enabled) 
+   14. allocate_tokens_for_local_replication_factor (only applicable to DSE 5.0+)
 
 3. Set the following key "cassandra-rackdc.properties" settings based on the host specific variables
    1. dc
