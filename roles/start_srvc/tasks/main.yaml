@@ -8,5 +8,5 @@
   wait_for:
     host: "{{ ansible_host }}"
     port: 9042
-    delay: 1
-    timeout: 300
+    delay: 10
+    state: started

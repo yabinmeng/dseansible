@@ -1,3 +1,18 @@
+
+# Updates on ***08/23/2020***
+
+* Retested with: 
+  * Ansible version 2.9.12
+  * Target host OS: Ubuntu 16.04.6
+
+* DSE Installation is retested with the following DSE versions:
+  * DSE 5.1.19
+  * DSE 6.0.12
+  * DSE 6.7.9
+  * DSE 6.8.2 
+
+---
+
 # Manage DataStax Enterprise (DSE) Installation and Version Upgrade Using Ansible Playbook
 
 ## 1. Overview
@@ -129,8 +144,6 @@ Within this framework, the following global variables are defined:
 
 | Global Varialbe       | Default Value | Description   |
 | --------------------- | ------------- | ------------- |
-| ansible_connection    | ssh | what connection method is used for ansible |
-| ansible_user          | N/A | the SSH user used to connect to the managed hosts |
 | backup_homedir        | N/A | the home diretory for backing up DSE configuration files |
 | dse_ver_major         | N/A | the major DSE version (4.8, 5.0, 5.1, etc.) to be installed or upgraded to |
 | dse_ver_minor         | N/A | the minor DSE version (x.x.1, x.x.7, etc.) associated with the major version |
@@ -144,6 +157,7 @@ Within this framework, the following global variables are defined:
 | commitlog_directory   | N/A | Cassandra commitlog directory |
 | saved_caches_directory| N/A | Cassandra saved_caches directory |
 | hints_directory       | N/A | Cassandra hints directory (note: only applicable to DSE 5.0+ |
+| cdc_raw_directory     | N/A | Cassandra CDC raw directory (note: only applicable to DSE 5.0+ |
 
 
 ### 3.3. Playbooks
@@ -151,7 +165,7 @@ Within this framework, the following global variables are defined:
 Playbooks are the top-level, standalone execution units for ansbile. For this framework, there are only two playbooks. The playbook can be executed using the following command (from the root directory of this framework):
 
 ```
-   ansible-playbook -i ./hosts <playbook_name> --private-key=<ssh_private_key_file>
+   ansible-playbook -i ./hosts <playbook_name> --private-key=<ssh_private_key_file> -u <ssh_user_name>
 ```
 
 1. **dse_install.yml** is used for installing a brand new DSE cluster at a version as defined in "dse_ver_target" global variable. At high level, what this playbook does is summarized as below:
@@ -194,10 +208,6 @@ This role defines several variables related with DSE package management.
 ```
    ### Datastax repository file name
    dse_repo_file: /etc/apt/sources.list.d/datastax.sources.list
-
-   ### User name and password to download DSE (DataStax Academy)
-   dse_repo_email: <your_datastax_academy_email>
-   dse_repo_password: <your_datastax_academy_password>
 ```
 #### 3.4.2  dse_common
 
@@ -238,9 +248,10 @@ At the moment, this role does the following DSE configuration settings:
    6. commitlog_directory
    7. saved_cache_directory
    8. hints_directory (only applicable to DSE 5.0+)
-   9. data_file_directories
-   10. num_tokens (if VNode setup is enabled)
-   11. initial_token_value (if single-token setup is enabled) 
+   9. cdc_raw_directory (only applicable to DSE 5.0+)
+   10. data_file_directories
+   11. num_tokens (if VNode setup is enabled)
+   12. initial_token_value (if single-token setup is enabled) 
 
 3. Set the following key "cassandra-rackdc.properties" settings based on the host specific variables
    1. dc
