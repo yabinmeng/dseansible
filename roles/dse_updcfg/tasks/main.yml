@@ -1,8 +1,4 @@
 ---
-- name: Determine the right VNode num_token value 
-  when: solr_enabled|int == 1
-  set_fact: vnode_token_num={{ vnode_token_num_solr }}
-
 #- debug: msg="{{ private_ip }}, {{ dc }}, {{ rack }}, {{ vnode }}, {{ vnode_token_num }}, {{ initial_token }}, {{ solr_enabled }}, {{ spark_enabled }}, {{ graph_enabled }}, {{ auto_bootstrap }}, {{ cluster_name }}, {{ data_file_directories }}, {{ commitlog_directory }}, {{ saved_caches_directory }}, {{ seeds }}"
 
 - name: Configure DSE Analytics workload type

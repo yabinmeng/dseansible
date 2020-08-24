@@ -15,7 +15,8 @@
   * DSE 6.0.12 -> DSE 6.7.9
   * DSE 6.7.9 -> DSE 6.8.2
 
-NOTE: Upgrading from DSE 5.1.x to DSE 6.0.x requires special steps that are not covered in this playbook!!
+**NOTE**: 
+Upgrading DSE cluster is in general a fairly complicated process, especially when there are major version upgrade involved (e.g. DSE 5.1 -> DSE 6.0, etc.) and/or advanced workloads involved (e.g. Search, Analytics, Graph). What is demonstrated here is just for the simplest case and serves ONLY as an example. 
 
 ---
 
@@ -156,8 +157,7 @@ Within this framework, the following global variables are defined:
 | dse_config_dir        | /etc/dse | the home directory of DSE configuraion files |
 | dse_default_dir       | /etc/default | the home directory of DSE default setting file |
 | dse_syslog_dir        | /var/log/cassandra | the home directory of DSE system logs |
-| vnode_token_num       | 64 | num_token value setting for VNode setup | 
-| vnode_token_num_solr  | 8 | num_token value setting for VNode setup when Solr workload is enabled |
+| vnode_token_num       | 8 | num_token value setting for VNode setup | 
 | cluster_name          | N/A | DSE cluster name |
 | data_file_directories | N/A | Cassandra data directory (note: JBOD is NOT supported yet) |
 | commitlog_directory   | N/A | Cassandra commitlog directory |

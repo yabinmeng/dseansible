@@ -11,10 +11,10 @@ backup_homedir: /home/automaton/dse_update_bkup
 #dse_ver_minor: 19
 #dse_ver_major: 6.0
 #dse_ver_minor: 12
-#dse_ver_major: 6.7
-#dse_ver_minor: 9
-dse_ver_major: 6.8
-dse_ver_minor: 2
+dse_ver_major: 6.7
+dse_ver_minor: 9
+#dse_ver_major: 6.8
+#dse_ver_minor: 2
 dse_ver_target:  "{{ dse_ver_major }}.{{ dse_ver_minor }}"
 
 ### DSE system file location
@@ -28,15 +28,14 @@ dse_syslog_dir: /var/log/cassandra
 #
 # default vnode token_num setting for C*
 vnode_token_num: 8
-# default vnode token_num setting for Solr enabled node
-vnode_token_num_solr: 8
 
 ## DSE cluster name and other configuration items
 #
 cluster_name: MyTestCluster
-data_file_directories: /dse_data/cassandra
-commitlog_directory: /dse_data/commitlog
-saved_caches_directory: /dse_data/saved_cahces
-hints_directory: /dse_data/hints
-cdc_raw_directory: /dse_data/cdc_raw
-metadata_directory: /dse_data/metadata
+dse_data_homedir: /home/automaton/dse_data
+data_file_directories: "{{ dse_data_homedir }}/cassandra"
+commitlog_directory: "{{ dse_data_homedir }}/commitlog"
+saved_caches_directory: "{{ dse_data_homedir }}/saved_cahces"
+hints_directory: "{{ dse_data_homedir }}/hints"
+cdc_raw_directory: "{{ dse_data_homedir }}/cdc_raw"
+metadata_directory: "{{ dse_data_homedir }}/metadata"
