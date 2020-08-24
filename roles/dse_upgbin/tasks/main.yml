@@ -9,7 +9,7 @@
   file:
     path: "{{ item }}"
     state: directory
-    mode: '755'
+    mode: '0755'
   with_items:
     - "{{ backup_homedir }}/{{ _dse_ver.stdout }}_to_{{ dse_ver_target }}/{{ current_timestamp.stdout }}/cassandra"
     - "{{ backup_homedir }}/{{ _dse_ver.stdout }}_to_{{ dse_ver_target }}/{{ current_timestamp.stdout }}/spark"
