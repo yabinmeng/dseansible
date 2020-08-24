@@ -5,11 +5,17 @@
   * Ansible version 2.9.12
   * Target host OS: Ubuntu 16.04.6
 
-* DSE Installation is retested with the following DSE versions:
+* DSE Installation is retested with the following DSE versions. Lower versions of DSE (5.0, 4.8, etc.) are already EOL (end-of-life) and EOSL (end-of-service-life).
   * DSE 5.1.19
   * DSE 6.0.12
   * DSE 6.7.9
   * DSE 6.8.2 
+
+* DSE Upgrade is retested with the following DSE versions:
+  * DSE 6.0.12 -> DSE 6.7.9
+  * DSE 6.7.9 -> DSE 6.8.2
+
+NOTE: Upgrading from DSE 5.1.x to DSE 6.0.x requires special steps that are not covered in this playbook!!
 
 ---
 

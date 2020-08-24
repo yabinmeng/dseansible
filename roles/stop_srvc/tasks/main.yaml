@@ -10,7 +10,7 @@
   with_items:
     - "nodetool flush"
 #    - "nodetool snapshot"
-    - "nodetool disablethrift"
+#    - "nodetool disablethrift"
     - "nodetool disablebinary"
     - "nodetool disablegossip"
     - "nodetool drain"

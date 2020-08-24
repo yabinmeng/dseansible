@@ -1,26 +1,32 @@
 ---
+- name: Check DSE version
+  command: "dse -v"
+  register: _dse_ver
+#- debug:
+#    msg: "DSE Version: {{ _dse_ver.stdout }}"
+
 - name: Create time-stamp based backup lcoation under backuproot
   file:
     path: "{{ item }}"
     state: directory
+    mode: '755'
   with_items:
-    - "{{ backup_homedir }}/{{ current_timestamp.stdout }}/cassandra"
-    - "{{ backup_homedir }}/{{ current_timestamp.stdout }}/spark"
-    - "{{ backup_homedir }}/{{ current_timestamp.stdout }}/default"
+    - "{{ backup_homedir }}/{{ _dse_ver.stdout }}_to_{{ dse_ver_target }}/{{ current_timestamp.stdout }}/cassandra"
+    - "{{ backup_homedir }}/{{ _dse_ver.stdout }}_to_{{ dse_ver_target }}/{{ current_timestamp.stdout }}/spark"
+    - "{{ backup_homedir }}/{{ _dse_ver.stdout }}_to_{{ dse_ver_target }}/{{ current_timestamp.stdout }}/default"
 
 
 - name: Backup cassandra.yaml and cassandra-rackdc.properties
   copy:
     src: "{{ item.src }}"
-    dest: "{{ backup_homedir }}/{{ current_timestamp.stdout }}/{{ item.dest }}"
-    remote_src: true
+    dest: "{{ backup_homedir }}/{{ _dse_ver.stdout }}_to_{{ dse_ver_target }}/{{ current_timestamp.stdout }}/{{ item.dest }}"
+    mode: '644'
+    remote_src: yes
   with_items:
     - { src: "{{ dse_config_dir }}/dse.yaml", dest: '.' }
     - { src: "{{ dse_default_dir }}/dse", dest: 'default' }
-    - { src: "{{ dse_config_dir }}/cassandra/cassandra.yaml", dest: 'cassandra' }
-    - { src: "{{ dse_config_dir }}/cassandra/cassandra-rackdc.properties", dest: 'cassandra' }
-    - { src: "{{ dse_config_dir }}/spark/dse-spark-env.sh", dest: 'spark' }
-    - { src: "{{ dse_config_dir }}/spark/spark-env.sh", dest: 'spark' }
+    - { src: "{{ dse_config_dir }}/cassandra/", dest: 'cassandra' }
+    - { src: "{{ dse_config_dir }}/spark/", dest: 'spark' }
 
 - name: Remove old DSE package
   apt:

@@ -79,7 +79,18 @@
     - "{{ hints_directory }}"
     - "{{ cdc_raw_directory }}"
 
-- name: Configure DSE cluster name, seeds list, endpoint_snitch, listen_address, commitlog_directory, and saved_caches_directory (cassandra.yaml)
+- name: Create Cassandra directory for metadata (only applicable to DSE 6.8+)
+  when: dse_ver_major is version_compare('6.8', '>=') 
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: cassandra
+    group: cassandra
+    mode: 0755
+  with_items:
+    - "{{ metadata_directory }}"
+
+- name: Configure DSE cluster name, seeds list, endpoint_snitch, listen_address, commitlog_directory, saved_caches_directory, hints_directory, cdc_raw_directory (cassandra.yaml)
   when: dse_ver_major is version_compare('5.0', '>=')
   lineinfile:
     name: "{{ dse_config_dir }}/cassandra/cassandra.yaml"
@@ -95,6 +106,8 @@
     - { regexp: '^listen_address\:', line: "listen_address: {{ ansible_default_ipv4.address }}" }
     - { regexp: '^commitlog_directory\:', line: 'commitlog_directory: {{ commitlog_directory }}' }
     - { regexp: '^saved_caches_directory\:', line: 'saved_caches_directory: {{ saved_caches_directory }}' }
+    - { regexp: '^hints_directory\:', line: 'hints_directory: {{ hints_directory }}' }
+    - { regexp: '^cdc_raw_directory\:', line: 'cdc_raw_directory: {{ hints_directory }}' }
     - { regexp: 'allocate_tokens_for_local_replication_factor\:', line: 'allocate_tokens_for_local_replication_factor: 3' }
 
 - name: Configure DSE rpc_address and broadcast_rpc_address (only applicable to 5.0 and 5.1)
@@ -125,8 +138,8 @@
 #    - { regexp: '^native_transport_address\:', line: "native_transport_address: 0.0.0.0" }
 #    - { regexp: '#*\s*native_transport_broadcast_address\:', line: "native_transport_broadcast_address: {{ ansible_default_ipv4.address }}" }
 
-- name: Configure DSE hints_directory (cassandra.yaml), DSE 5.0+ only
-  when: dse_ver_major is version_compare('5.0', '>=') 
+- name: Configure DSE metadata_directory (cassandra.yaml), DSE 6.8+ only
+  when: dse_ver_major is version_compare('6.8', '>=') 
   lineinfile:
     name: "{{ dse_config_dir }}/cassandra/cassandra.yaml"
     regexp: "{{ item.regexp }}"
@@ -135,7 +148,7 @@
     group: cassandra
     mode: 0644
   with_items:
-    - { regexp: '^hints_directory\:', line: 'hints_directory: {{ hints_directory }}' }
+    - { regexp: '^metadata_directory\:', line: 'metadata_directory: {{ hints_directory }}' }
 
 - name: Configure Cassandra data directory (cassandra.yaml)
   replace:

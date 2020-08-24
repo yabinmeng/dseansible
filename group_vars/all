@@ -1,14 +1,20 @@
 ---
 # Home directory for backup 
-backup_homedir: ~/dse_cfg_bkup
+backup_homedir: /home/automaton/dse_update_bkup
 
 ### Target/Current DSE verson
 #   - dse_ver_target:
 #     for fresh install, dse_ver_target is the version to be installed
 #     for upgrade, dse_ver_target is the version to be upgraded to
 #
-dse_ver_major: 5.1
-dse_ver_minor: 19
+#dse_ver_major: 5.1
+#dse_ver_minor: 19
+#dse_ver_major: 6.0
+#dse_ver_minor: 12
+#dse_ver_major: 6.7
+#dse_ver_minor: 9
+dse_ver_major: 6.8
+dse_ver_minor: 2
 dse_ver_target:  "{{ dse_ver_major }}.{{ dse_ver_minor }}"
 
 ### DSE system file location
@@ -33,3 +39,4 @@ commitlog_directory: /dse_data/commitlog
 saved_caches_directory: /dse_data/saved_cahces
 hints_directory: /dse_data/hints
 cdc_raw_directory: /dse_data/cdc_raw
+metadata_directory: /dse_data/metadata
