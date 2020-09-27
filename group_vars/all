@@ -1,4 +1,4 @@
----
+    ---
 # Home directory for backup 
 backup_homedir: /home/automaton/dse_update_bkup
 
@@ -11,10 +11,10 @@ backup_homedir: /home/automaton/dse_update_bkup
 #dse_ver_minor: 19
 #dse_ver_major: 6.0
 #dse_ver_minor: 12
-dse_ver_major: 6.7
-dse_ver_minor: 9
-#dse_ver_major: 6.8
-#dse_ver_minor: 2
+#dse_ver_major: 6.7
+#dse_ver_minor: 9
+dse_ver_major: 6.8
+dse_ver_minor: 2
 dse_ver_target:  "{{ dse_ver_major }}.{{ dse_ver_minor }}"
 
 ### DSE system file location
