@@ -19,6 +19,7 @@
 Upgrading DSE cluster is in general a fairly complicated process, especially when there are major version upgrade involved (e.g. DSE 5.1 -> DSE 6.0, etc.) and/or advanced workloads involved (e.g. Search, Analytics, Graph). What is demonstrated here is just for the simplest case and serves ONLY as an example. 
 
 ---
+---
 
 # Manage DataStax Enterprise (DSE) Installation and Version Upgrade Using Ansible Playbook
 
