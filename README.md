@@ -162,9 +162,9 @@ Within this framework, the following global variables are defined:
 | data_file_directories | N/A | Cassandra data directory (note: JBOD is NOT supported yet) |
 | commitlog_directory   | N/A | Cassandra commitlog directory |
 | saved_caches_directory| N/A | Cassandra saved_caches directory |
-| hints_directory       | N/A | Cassandra hints directory (note: only applicable to DSE 5.0+ |
-| cdc_raw_directory     | N/A | Cassandra CDC raw directory (note: only applicable to DSE 5.0+ |
-| metadata_directory    | N/A | DSE metadata directory (note: only applicable to DSE 6.8+ |
+| hints_directory       | N/A | Cassandra hints directory (note: only applicable to DSE 5.0+) |
+| cdc_raw_directory     | N/A | Cassandra CDC raw directory (note: only applicable to DSE 5.0+) |
+| metadata_directory    | N/A | DSE metadata directory (note: only applicable to DSE 6.8+) |
 
 ### 3.3. Playbooks
 
