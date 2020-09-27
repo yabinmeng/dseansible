@@ -16,7 +16,10 @@
   * DSE 6.7.9 -> DSE 6.8.2
 
 **NOTE**: 
-Upgrading DSE cluster is in general a fairly complicated process, especially when there are major version upgrade involved (e.g. DSE 5.1 -> DSE 6.0, etc.) and/or advanced workloads involved (e.g. Search, Analytics, Graph). What is demonstrated here is just for the simplest case and serves ONLY as an example. 
+
+1. Upgrading DSE cluster is in general a fairly complicated process, especially when there are major version upgrade involved (e.g. DSE 5.1 -> DSE 6.0, etc.) and/or advanced workloads involved (e.g. Search, Analytics, Graph). What is demonstrated here is just for the simplest case and serves ONLY as an example. 
+
+2. This repository ONLY deals with DSE installation/update and configuration. It does NOT handle any infrastructure/OS layer settings (including installing prerequisite software like Java). If you need to handel infrastructure/OS layer settings, please refer to my other repository **[terradse](https://github.com/yabinmeng/terradse)**.
 
 ---
 ---
