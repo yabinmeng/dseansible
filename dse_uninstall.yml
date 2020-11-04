@@ -1,0 +1,44 @@
+# Shutdown the DSE cluster (all nodes), one by one
+- hosts: dse
+  any_errors_fatal: true
+  become: true
+  become_method: sudo
+  serial: 1
+  vars:
+    srvc_name: dse
+    srvc_pid_path: /var/run/dse/dse.pid
+  roles:
+    - { role: stop_srvc }
+
+# Remove DSE package and clean up DSE folders (if needed)
+- hosts: dse
+  any_errors_fatal: true
+  become: true
+  become_method: sudo
+  tasks:
+  - name: Uninstall DSE version {{ dse_ver_target }}
+    apt:
+      name: "{{ item }}"
+      state: absent
+      purge: yes
+    with_items:
+      - "dse-full={{ dse_ver_target }}-1"
+      - "dse={{ dse_ver_target }}-1"
+      - "dse-libgraph={{ dse_ver_target }}-1"
+      - "dse-libsolr={{ dse_ver_target }}-1"
+      - "dse-libtomcat={{ dse_ver_target }}-1"
+      - "dse-liblog4j={{ dse_ver_target }}-1"
+      - "dse-libcassandra={{ dse_ver_target }}-1"
+      - "dse-libspark={{ dse_ver_target }}-1"
+      - "dse-libhadoop2-client={{ dse_ver_target }}-1"
+      - "dse-libhadoop2-client-native={{ dse_ver_target }}-1"
+  ## This shoudl be optional, but just in case
+  - name: Remove DSE folders
+    file:
+      path: "{{ item }}"
+      state: absent
+    with_items:
+      - "/etc/dse"
+      - "/var/log/spark"
+      - "/var/log/cassandra"
+      - "/var/run/dse"
